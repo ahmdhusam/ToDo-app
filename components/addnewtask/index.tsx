@@ -1,23 +1,28 @@
+import { useState } from 'react';
+
 import Box from '@mui/material/Box';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import EditIcon from '@mui/icons-material/Edit';
 
+// Custom Components
+import NewTaskForm from './NewTaskForm';
+
 export default function AddNewTask() {
+    const [isOpen, setIsOpen] = useState<boolean>(false);
     return (
-        <Box
-            sx={{ height: 320, transform: 'translateZ(0px)', flexGrow: 1, position: 'fixed', bottom: 16, left: '50%' }}>
-            <SpeedDial
-                ariaLabel='SpeedDial openIcon example'
+        <>
+            <Box
+                onClick={() => setIsOpen(true)}
                 sx={{
-                    borderRadius: '1.3rem',
-                    position: 'absolute',
+                    position: 'fixed',
                     bottom: 16,
-                    right: '50%',
-                    transform: 'translatex(50%)'
-                }}
-                icon={<SpeedDialIcon openIcon={<EditIcon />} />}
-            />
-        </Box>
+                    left: '50%',
+                    transform: 'translatex(-50%)'
+                }}>
+                <SpeedDial id='speedDial' ariaLabel='add new task' icon={<SpeedDialIcon openIcon={<EditIcon />} />} />
+            </Box>
+            <NewTaskForm isOpen={isOpen} onClose={() => setIsOpen(false)} />
+        </>
     );
 }

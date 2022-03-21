@@ -1,3 +1,5 @@
+import { useDispatch } from 'react-redux';
+
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -7,6 +9,9 @@ import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+
+// Global State
+import { drawerActions } from '../../store/drawer';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -51,11 +56,20 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function NavBar() {
+    const dispatch = useDispatch();
+    const { openDrawer } = drawerActions;
+
     return (
         <Box sx={{ flexGrow: 1 }} position='sticky' top={0} zIndex={5}>
-            <AppBar position='static'>
+            <AppBar position='static' color='secondary'>
                 <Toolbar>
-                    <IconButton size='large' edge='start' color='inherit' aria-label='open drawer' sx={{ mr: 2 }}>
+                    <IconButton
+                        onClick={dispatch.bind(null, openDrawer())}
+                        size='large'
+                        edge='start'
+                        color='inherit'
+                        aria-label='open drawer'
+                        sx={{ mr: 2 }}>
                         <MenuIcon />
                     </IconButton>
                     <Typography

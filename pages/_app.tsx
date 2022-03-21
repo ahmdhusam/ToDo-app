@@ -1,9 +1,14 @@
-import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import Drawer from '../components/drawer';
+
+// Ui Components
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import NavBar from '../components/navbar';
-import AddNewTask from '../components/addnewtask';
+
+// Global Style
+import '../styles/globals.css';
+
+// custom Components
+import { AddNewTask, Drawer, NavBar } from '../components';
+import StoreProvider from '../store/StoreProvider';
 
 const theme = createTheme({
     palette: {
@@ -18,10 +23,12 @@ const theme = createTheme({
 function MyApp({ Component, pageProps }: AppProps) {
     return (
         <ThemeProvider theme={theme}>
-            <Drawer />
-            <NavBar />
-            <Component {...pageProps} />
-            <AddNewTask />
+            <StoreProvider>
+                <Drawer />
+                <NavBar />
+                <Component {...pageProps} />
+                <AddNewTask />
+            </StoreProvider>
         </ThemeProvider>
     );
 }

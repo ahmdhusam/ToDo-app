@@ -1,4 +1,5 @@
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 // MUI components
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
@@ -9,14 +10,24 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { Typography } from '@mui/material';
-import HomeIcon from '@mui/icons-material/Home';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCartOutlined';
+import AccountIcon from '@mui/icons-material/AccountBoxRounded';
+import WorkIcon from '@mui/icons-material/WorkHistoryRounded';
+
+// Global State
+import type { iGlobalState } from '../../store/store';
+import { drawerActions } from '../../store/drawer';
 
 export default function Drawer() {
-    const [isOpen, setIsOpen] = useState<boolean>(true);
+    const { isOpen } = useSelector((state: iGlobalState) => state.drawer);
+    const dispatch = useDispatch();
+    const { openDrawer, closeDrawer } = drawerActions;
 
     return (
-        <SwipeableDrawer anchor={'left'} open={isOpen} onClose={() => setIsOpen(false)} onOpen={() => setIsOpen(true)}>
+        <SwipeableDrawer
+            anchor={'left'}
+            open={isOpen}
+            onClose={dispatch.bind(null, closeDrawer())}
+            onOpen={dispatch.bind(null, openDrawer())}>
             <Box color='white' bgcolor='secondary.main' minHeight='100vh'>
                 <Typography variant='h5' p={1} m={0} pl={2} gutterBottom component='h5'>
                     Collections
@@ -24,15 +35,11 @@ export default function Drawer() {
                 <Divider />
                 <Box sx={{ width: 250 }} role='presentation'>
                     <List>
-                        {['Home', 'Cart'].map(text => (
+                        {['Personal', 'Work'].map(text => (
                             <Fragment key={text}>
                                 <ListItem button>
                                     <ListItemIcon>
-                                        {text === 'Home' ? (
-                                            <HomeIcon color='info' />
-                                        ) : (
-                                            <ShoppingCartIcon color='info' />
-                                        )}
+                                        {text === 'Home' ? <AccountIcon color='info' /> : <WorkIcon color='info' />}
                                     </ListItemIcon>
                                     <ListItemText primary={text} />
                                 </ListItem>
