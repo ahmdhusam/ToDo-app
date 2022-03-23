@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+// MUI components
 import Box from '@mui/material/Box';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
@@ -16,7 +17,7 @@ export default function AddNewTask() {
                 onClick={() => setIsOpen(true)}
                 sx={{
                     position: 'fixed',
-                    bottom: 16,
+                    bottom: '5vh',
                     left: '50%',
                     transform: 'translatex(-50%)'
                 }}>

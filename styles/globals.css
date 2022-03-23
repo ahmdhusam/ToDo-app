@@ -21,3 +21,31 @@ a {
     border-radius: 1.3rem;
     background-image: linear-gradient(225deg, hsl(2deg 98% 82%), hsl(325deg 79% 66%), hsl(291deg 66% 65%));
 }
+
+@media screen and (min-width: 900px) {
+    /* firefox */
+    body {
+        scrollbar-color: grey transparent;
+        scrollbar-width: 5px;
+    }
+    .custom-scrollbar {
+        scrollbar-color: grey transparent;
+        scrollbar-width: 5px;
+    }
+
+    /* Chrome */
+    ::-webkit-scrollbar {
+        width: 5px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background-color: grey;
+        border-radius: 0.3rem;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 5px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: grey;
+        border-radius: 0.3rem;
+    }
+}
