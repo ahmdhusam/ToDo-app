@@ -1,8 +1,10 @@
-import { Container } from '@mui/material';
 import type { NextPage } from 'next';
-import { Todos } from '../components';
+
+// MUI components
+import { Container } from '@mui/material';
 
 // custom components
+import { Todos } from '../components';
 
 const Home: NextPage = () => {
     return (
