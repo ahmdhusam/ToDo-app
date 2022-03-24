@@ -31,7 +31,7 @@ const Home: NextPage = () => {
                 </Tooltip>
             </Toolbar>
             {sections.map((section: string) => (
-                <section>
+                <section key={section}>
                     <Todos sectionTitle={section} />
                 </section>
             ))}
