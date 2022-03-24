@@ -39,7 +39,7 @@ export default function Drawer() {
                             <Fragment key={text}>
                                 <ListItem button>
                                     <ListItemIcon>
-                                        {text === 'Home' ? <AccountIcon color='info' /> : <WorkIcon color='info' />}
+                                        {text === 'Personal' ? <AccountIcon color='info' /> : <WorkIcon color='info' />}
                                     </ListItemIcon>
                                     <ListItemText primary={text} />
                                 </ListItem>
