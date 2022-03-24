@@ -1,18 +1,19 @@
-import React, { Fragment } from 'react';
-
+// MUI components
 import { Stack } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Container } from '@mui/material';
 
 // custom components
 import Todo from './Todo';
 
-export default function Todos() {
+interface ITodosProps {
+    sectionTitle: string;
+}
+
+export default function Todos({ sectionTitle }: ITodosProps) {
     return (
-        <Fragment>
+        <Container maxWidth='sm' title={sectionTitle} style={{ paddingTop: '1rem' }}>
             <Stack mb={2} color='white'>
                 <Toolbar
                     sx={{
@@ -20,18 +21,20 @@ export default function Todos() {
                         pr: { xs: 1, sm: 1 }
                     }}>
                     <Typography sx={{ flex: '1 1 100%' }} variant='h6' id='Title' component='div'>
-                        Tasks - 0
+                        {sectionTitle}
                     </Typography>
-                    <Tooltip title='Delete Completed'>
-                        <IconButton disabled={true} color='primary' onClick={() => {}}>
-                            <DeleteIcon style={{ color: false ? 'white' : 'grey' }} />
-                        </IconButton>
-                    </Tooltip>
+                    <Typography sx={{ px: 2 }} variant='h6' component='span'>
+                        0
+                    </Typography>
                 </Toolbar>
             </Stack>
-            <Stack className='custom-scrollbar' px={1} spacing={2} maxHeight={'40vh'} sx={{ overflowY: 'scroll' }}>
-                <Todo />
+            <Stack className='custom-scrollbar' px={1} spacing={2} maxHeight={'50vh'} sx={{ overflowY: 'auto' }}>
+                <Todo
+                    isCompleted={true}
+                    task='Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut, facere!'
+                    date='today'
+                />
             </Stack>
-        </Fragment>
+        </Container>
     );
 }

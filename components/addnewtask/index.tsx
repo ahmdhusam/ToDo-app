@@ -11,10 +11,19 @@ import NewTaskForm from './NewTaskForm';
 
 export default function AddNewTask() {
     const [isOpen, setIsOpen] = useState<boolean>(false);
+
+    const openNewTaskFormHandler = () => {
+        setIsOpen(true);
+    };
+
+    const closeNewTaskFormHandler = () => {
+        setIsOpen(false);
+    };
+
     return (
         <>
             <Box
-                onClick={() => setIsOpen(true)}
+                onClick={openNewTaskFormHandler}
                 sx={{
                     position: 'fixed',
                     bottom: '5vh',
@@ -23,7 +32,7 @@ export default function AddNewTask() {
                 }}>
                 <SpeedDial id='speedDial' ariaLabel='add new task' icon={<SpeedDialIcon openIcon={<EditIcon />} />} />
             </Box>
-            <NewTaskForm isOpen={isOpen} onClose={() => setIsOpen(false)} />
+            <NewTaskForm isOpen={isOpen} onClose={closeNewTaskFormHandler} />
         </>
     );
 }
