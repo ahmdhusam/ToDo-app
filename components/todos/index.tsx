@@ -7,11 +7,15 @@ import { Container } from '@mui/material';
 // custom components
 import Todo from './Todo';
 
+// Global State
+import type { ICompletedTodo, IInProgressTodo } from '../../store/todos';
+
 interface ITodosProps {
-    sectionTitle: string;
+    sectionTitle: 'In-Progress' | 'Completed';
+    todos: IInProgressTodo[] | ICompletedTodo[];
 }
 
-export default function Todos({ sectionTitle }: ITodosProps) {
+export default function Todos({ sectionTitle, todos }: ITodosProps) {
     return (
         <Container maxWidth='sm' title={sectionTitle} style={{ paddingTop: '1rem' }}>
             <Stack mb={2} color='white'>
@@ -24,16 +28,14 @@ export default function Todos({ sectionTitle }: ITodosProps) {
                         {sectionTitle}
                     </Typography>
                     <Typography sx={{ px: 2 }} variant='h6' component='span'>
-                        0
+                        {todos.length}
                     </Typography>
                 </Toolbar>
             </Stack>
             <Stack className='custom-scrollbar' px={1} spacing={2} maxHeight={'50vh'} sx={{ overflowY: 'auto' }}>
-                <Todo
-                    isCompleted={true}
-                    task='Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut, facere!'
-                    date='today'
-                />
+                {todos.map(todo => (
+                    <Todo key={todo.task} {...todo} />
+                ))}
             </Stack>
         </Container>
     );

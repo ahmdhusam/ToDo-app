@@ -1,13 +1,18 @@
+import Link from 'next/link';
+
+// MUI components
 import { Button, Checkbox, Stack, Typography } from '@mui/material';
 import CalendarIcon from '@mui/icons-material/CalendarTodayOutlined';
+import TreeIcon from '@mui/icons-material/AccountTreeRounded';
 
-interface ITodoProps {
-    task: string;
-    date: string;
-    isCompleted: boolean;
+// Global State
+import type { IInProgressTodo } from '../../store/todos';
+
+interface ITodoProps extends IInProgressTodo {
+    isCompleted?: boolean;
 }
 
-export default function Todo({ task, date, isCompleted }: ITodoProps) {
+export default function Todo({ task, collection, date, isCompleted = false }: ITodoProps) {
     return (
         <Stack
             direction={'row'}
@@ -31,11 +36,22 @@ export default function Todo({ task, date, isCompleted }: ITodoProps) {
                 <Typography variant='body2' component={isCompleted ? 'del' : 'p'}>
                     {task}
                 </Typography>
-                <Typography variant='caption' component='span'>
-                    <Button color='warning' size='small' startIcon={<CalendarIcon />}>
-                        {date}
-                    </Button>
-                </Typography>
+                <Stack direction='row' spacing={1}>
+                    <Link href={`/${collection.toLowerCase()}`}>
+                        <a>
+                            <Typography variant='caption' component='span'>
+                                <Button style={{ color: 'wheat' }} size='small' startIcon={<TreeIcon />}>
+                                    {collection}
+                                </Button>
+                            </Typography>
+                        </a>
+                    </Link>
+                    <Typography variant='caption' component='span'>
+                        <Button color='warning' size='small' startIcon={<CalendarIcon />}>
+                            {date}
+                        </Button>
+                    </Typography>
+                </Stack>
             </Stack>
         </Stack>
     );

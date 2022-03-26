@@ -14,11 +14,11 @@ import AccountIcon from '@mui/icons-material/AccountBoxRounded';
 import WorkIcon from '@mui/icons-material/WorkHistoryRounded';
 
 // Global State
-import type { iGlobalState } from '../../store/store';
+import type { IGlobalState } from '../../store/store';
 import { drawerActions } from '../../store/drawer';
 
 export default function Drawer() {
-    const { isOpen } = useSelector((state: iGlobalState) => state.drawer);
+    const { isOpen } = useSelector((state: IGlobalState) => state.drawer);
     const dispatch = useDispatch();
     const { openDrawer, closeDrawer } = drawerActions;
 
