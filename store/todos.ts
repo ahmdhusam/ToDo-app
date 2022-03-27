@@ -6,6 +6,7 @@ export interface ITodos {
 }
 
 export interface IInProgressTodo {
+    id: string;
     task: string;
     date: string;
     collection: Collection;
@@ -15,32 +16,38 @@ export interface ICompletedTodo extends IInProgressTodo {
     isCompleted: boolean;
 }
 
-type Collection = 'Personal' | 'Work';
+interface ITodoAction<T> {
+    payload: T;
+}
 
-const initInProgress: IInProgressTodo = {
-    collection: 'Personal',
-    date: 'today',
-    task: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum'
-};
-const initCompleted: ICompletedTodo = {
-    collection: 'Work',
-    date: 'Now',
-    task: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum',
-    isCompleted: true
-};
+export type Collection = 'Personal' | 'Work';
 
 const initialState: ITodos = {
-    inProgress: [initInProgress],
-    completed: [initCompleted]
+    inProgress: [],
+    completed: []
 };
 
 const slice = {
     name: 'todos',
     initialState,
     reducers: {
-        addTodo() {},
-        setIsCompleted() {},
-        removeAllCompleted() {}
+        addTodo(state: ITodos, action: ITodoAction<IInProgressTodo>) {
+            state.inProgress.push(action.payload);
+        },
+        setIsCompleted(state: ITodos, action: ITodoAction<ICompletedTodo>) {
+            const actionTodo = action.payload;
+            if (actionTodo.isCompleted) {
+                state.inProgress = state.inProgress.filter(todo => todo.id !== actionTodo.id);
+                state.completed.push(action.payload);
+                return;
+            }
+            state.completed = state.completed.filter(todo => todo.id !== actionTodo.id);
+            const { isCompleted, ...inProgressTodo } = actionTodo;
+            state.inProgress.push(inProgressTodo);
+        },
+        removeAllCompleted(state: ITodos) {
+            state.completed = [];
+        }
     }
 };
 

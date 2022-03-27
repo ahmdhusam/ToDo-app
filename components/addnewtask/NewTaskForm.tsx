@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 // MUI components
 import Button from '@mui/material/Button';
@@ -14,19 +15,35 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
+// Global State
+import { Collection, IInProgressTodo, todosActions } from '../../store/todos';
+
+// lib
+import uid from '../../lib/uid';
+
 interface INewTaskFormProps {
     isOpen: boolean;
     onClose(): void;
 }
 
 export default function NewTaskForm({ isOpen, onClose }: INewTaskFormProps) {
-    const [collection, setCollection] = useState<string>('personal');
+    const [collection, setCollection] = useState<Collection>('Personal');
     const taskInputRef = useRef<HTMLInputElement>(null);
+    const dispatch = useDispatch();
+
+    const { addTodo } = todosActions;
 
     const submitHandler = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log(collection);
-        console.log(taskInputRef.current!.value);
+
+        const todo: IInProgressTodo = {
+            id: uid(),
+            task: taskInputRef.current!.value,
+            collection,
+            date: new Date().toISOString()
+        };
+
+        dispatch(addTodo(todo));
         onClose();
     };
 
@@ -58,9 +75,9 @@ export default function NewTaskForm({ isOpen, onClose }: INewTaskFormProps) {
                                 aria-labelledby='demo-row-radio-buttons-group-label'
                                 name='row-radio-buttons-group'
                                 value={collection}
-                                onChange={e => setCollection(e.target.value)}>
-                                <FormControlLabel value='personal' control={<Radio />} label='Personal' />
-                                <FormControlLabel value='work' control={<Radio />} label='Work' />
+                                onChange={e => setCollection(e.target.value as Collection)}>
+                                <FormControlLabel value='Personal' control={<Radio />} label='Personal' />
+                                <FormControlLabel value='Work' control={<Radio />} label='Work' />
                             </RadioGroup>
                         </DialogContent>
                         <DialogActions>

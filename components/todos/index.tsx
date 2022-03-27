@@ -34,7 +34,7 @@ export default function Todos({ sectionTitle, todos }: ITodosProps) {
             </Stack>
             <Stack className='custom-scrollbar' px={1} spacing={2} maxHeight={'50vh'} sx={{ overflowY: 'auto' }}>
                 {todos.map(todo => (
-                    <Todo key={todo.task} {...todo} />
+                    <Todo key={todo.id} {...todo} />
                 ))}
             </Stack>
         </Container>

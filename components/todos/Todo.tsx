@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { useDispatch } from 'react-redux';
+import Moment from 'react-moment';
 
 // MUI components
 import { Button, Checkbox, Stack, Typography } from '@mui/material';
@@ -6,13 +8,23 @@ import CalendarIcon from '@mui/icons-material/CalendarTodayOutlined';
 import TreeIcon from '@mui/icons-material/AccountTreeRounded';
 
 // Global State
+import { todosActions } from '../../store/todos';
 import type { IInProgressTodo } from '../../store/todos';
 
 interface ITodoProps extends IInProgressTodo {
     isCompleted?: boolean;
 }
 
-export default function Todo({ task, collection, date, isCompleted = false }: ITodoProps) {
+export default function Todo(props: ITodoProps) {
+    const { task, collection, date, isCompleted = false } = props;
+    const dispatch = useDispatch();
+
+    const { setIsCompleted } = todosActions;
+
+    const completedHandler = () => {
+        dispatch(setIsCompleted({ ...props, isCompleted: !isCompleted }));
+    };
+
     return (
         <Stack
             direction={'row'}
@@ -31,12 +43,13 @@ export default function Todo({ task, collection, date, isCompleted = false }: IT
                 inputProps={{
                     'aria-labelledby': task
                 }}
+                onClick={completedHandler}
             />
             <Stack spacing={1}>
                 <Typography variant='body2' component={isCompleted ? 'del' : 'p'}>
                     {task}
                 </Typography>
-                <Stack direction='row' spacing={1}>
+                <Stack direction='row' spacing={1} alignItems='center'>
                     <Link href={`/${collection.toLowerCase()}`}>
                         <a>
                             <Typography variant='caption' component='span'>
@@ -48,7 +61,7 @@ export default function Todo({ task, collection, date, isCompleted = false }: IT
                     </Link>
                     <Typography variant='caption' component='span'>
                         <Button color='warning' size='small' startIcon={<CalendarIcon />}>
-                            {date}
+                            <Moment fromNow>{date}</Moment>
                         </Button>
                     </Typography>
                 </Stack>

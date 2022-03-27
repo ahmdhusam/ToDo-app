@@ -1,4 +1,7 @@
-import { useSelector } from 'react-redux';
+import { Fragment } from 'react';
+import Head from 'next/head';
+
+import { useDispatch } from 'react-redux';
 
 // MUI components
 import { Container } from '@mui/material';
@@ -12,36 +15,52 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Todos from '../todos';
 
 // Global State
-import { IGlobalState } from '../../store/store';
+import { Collection, todosActions } from '../../store/todos';
+
+// custom hooks
+import { useTodosFiltered } from '../../customHooks/todosFiltered';
 
 interface IPageProps {
-    title?: string;
+    title?: 'All' | Collection;
 }
 
 export default function Page({ title = 'All' }: IPageProps) {
-    const { inProgress, completed } = useSelector((state: IGlobalState) => state.todos);
+    const { inProgress, completed } = useTodosFiltered(title);
+    const dispatch = useDispatch();
+
+    const { removeAllCompleted } = todosActions;
 
     const AllTasks = inProgress.length + completed.length;
+    const hasInProgress = inProgress.length !== 0;
     const hasCompleted: boolean = completed.length !== 0;
 
+    const removeAllCompletedHandler = () => {
+        dispatch(removeAllCompleted());
+    };
+
     return (
-        <Container maxWidth='md'>
-            <Toolbar
-                sx={{
-                    pl: { sm: 2 },
-                    pr: { xs: 1, sm: 1 }
-                }}>
-                <Typography sx={{ flex: '1 1 100%' }} color='white' variant='h6' id='Title' component='div'>
-                    {title} Tasks - {AllTasks}
-                </Typography>
-                <Tooltip title='Delete Completed'>
-                    <IconButton disabled={!hasCompleted} color='primary' onClick={() => {}}>
-                        <DeleteIcon style={{ color: hasCompleted ? 'white' : 'grey' }} />
-                    </IconButton>
-                </Tooltip>
-            </Toolbar>
-            <Todos sectionTitle='In-Progress' todos={inProgress} />
-            {hasCompleted && <Todos sectionTitle='Completed' todos={completed} />}
-        </Container>
+        <Fragment>
+            <Head>
+                <title>{`${title} ToDo`}</title>
+            </Head>
+            <Container maxWidth='md'>
+                <Toolbar
+                    sx={{
+                        pl: { sm: 2 },
+                        pr: { xs: 1, sm: 1 }
+                    }}>
+                    <Typography sx={{ flex: '1 1 100%' }} color='white' variant='h6' id='Title' component='div'>
+                        {title} Tasks - {AllTasks}
+                    </Typography>
+                    <Tooltip title='Delete Completed'>
+                        <IconButton disabled={!hasCompleted} color='primary' onClick={removeAllCompletedHandler}>
+                            <DeleteIcon style={{ color: hasCompleted ? 'white' : 'grey' }} />
+                        </IconButton>
+                    </Tooltip>
+                </Toolbar>
+                {hasInProgress && <Todos sectionTitle='In-Progress' todos={inProgress} />}
+                {hasCompleted && <Todos sectionTitle='Completed' todos={completed} />}
+            </Container>
+        </Fragment>
     );
 }

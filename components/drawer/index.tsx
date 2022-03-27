@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 
 // MUI components
@@ -20,6 +20,7 @@ import { drawerActions } from '../../store/drawer';
 export default function Drawer() {
     const { isOpen } = useSelector((state: IGlobalState) => state.drawer);
     const dispatch = useDispatch();
+
     const { openDrawer, closeDrawer } = drawerActions;
 
     return (
@@ -28,7 +29,7 @@ export default function Drawer() {
             open={isOpen}
             onClose={dispatch.bind(null, closeDrawer())}
             onOpen={dispatch.bind(null, openDrawer())}>
-            <Box color='white' bgcolor='secondary.main' minHeight='100vh'>
+            <Box color='white' bgcolor='secondary.main' height='100%'>
                 <Typography variant='h5' p={1} m={0} pl={2} gutterBottom component='h5'>
                     Collections
                 </Typography>
@@ -36,15 +37,21 @@ export default function Drawer() {
                 <Box sx={{ width: 250 }} role='presentation'>
                     <List>
                         {['Personal', 'Work'].map(text => (
-                            <Fragment key={text}>
-                                <ListItem button>
-                                    <ListItemIcon>
-                                        {text === 'Personal' ? <AccountIcon color='info' /> : <WorkIcon color='info' />}
-                                    </ListItemIcon>
-                                    <ListItemText primary={text} />
-                                </ListItem>
-                                <Divider />
-                            </Fragment>
+                            <Link key={text} href={`/${text.toLowerCase()}`}>
+                                <a>
+                                    <ListItem button>
+                                        <ListItemIcon>
+                                            {text === 'Personal' ? (
+                                                <AccountIcon color='info' />
+                                            ) : (
+                                                <WorkIcon color='info' />
+                                            )}
+                                        </ListItemIcon>
+                                        <ListItemText primary={text} />
+                                    </ListItem>
+                                    <Divider />
+                                </a>
+                            </Link>
                         ))}
                     </List>
                 </Box>

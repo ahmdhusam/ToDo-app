@@ -1,4 +1,6 @@
+import { Fragment } from 'react';
 import type { AppProps } from 'next/app';
+import Head from 'next/head';
 
 // Ui Components
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -22,14 +24,19 @@ const theme = createTheme({
 });
 function MyApp({ Component, pageProps }: AppProps) {
     return (
-        <ThemeProvider theme={theme}>
-            <StoreProvider>
-                <Drawer />
-                <NavBar />
-                <Component {...pageProps} />
-                <AddNewTask />
-            </StoreProvider>
-        </ThemeProvider>
+        <Fragment>
+            <Head>
+                <title>ToDo App</title>
+            </Head>
+            <ThemeProvider theme={theme}>
+                <StoreProvider>
+                    <Drawer />
+                    <NavBar />
+                    <Component {...pageProps} />
+                    <AddNewTask />
+                </StoreProvider>
+            </ThemeProvider>
+        </Fragment>
     );
 }
 
