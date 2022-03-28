@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 
 // MUI components
@@ -78,7 +79,9 @@ export default function NavBar() {
                         noWrap
                         component='div'
                         sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
-                        ToDo
+                        <Link href='/'>
+                            <a>ToDo</a>
+                        </Link>
                     </Typography>
                     <Search>
                         <SearchIconWrapper>

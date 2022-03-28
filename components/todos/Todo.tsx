@@ -46,7 +46,10 @@ export default function Todo(props: ITodoProps) {
                 onClick={completedHandler}
             />
             <Stack spacing={1}>
-                <Typography variant='body2' component={isCompleted ? 'del' : 'p'}>
+                <Typography
+                    sx={{ whiteSpace: 'break-spaces', wordBreak: 'break-word' }}
+                    variant='body2'
+                    component={isCompleted ? 'del' : 'p'}>
                     {task}
                 </Typography>
                 <Stack direction='row' spacing={1} alignItems='center'>

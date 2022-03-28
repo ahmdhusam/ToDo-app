@@ -1,3 +1,7 @@
+:root {
+    --primary-color: #181820;
+    --secondary-color: #21212b;
+}
 html,
 body {
     padding: 0;
@@ -5,7 +9,7 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
         Helvetica Neue, sans-serif;
 
-    background-color: #181820;
+    background-color: var(--primary-color);
 }
 
 a {
@@ -48,4 +52,10 @@ a {
         background-color: grey;
         border-radius: 0.3rem;
     }
+}
+
+#arrow-back {
+    margin-right: 0.7rem;
+    border-radius: 0.9rem;
+    background-color: var(--secondary-color);
 }

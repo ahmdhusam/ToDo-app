@@ -1,5 +1,6 @@
 import { Fragment } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 
 import { useDispatch } from 'react-redux';
 
@@ -10,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ArrowBackIcon from '@mui/icons-material/ArrowBackIosNewOutlined';
 
 // custom components
 import Todos from '../todos';
@@ -30,12 +32,11 @@ export default function Page({ title = 'All' }: IPageProps) {
 
     const { removeAllCompleted } = todosActions;
 
-    const AllTasks = inProgress.length + completed.length;
     const hasInProgress = inProgress.length !== 0;
     const hasCompleted: boolean = completed.length !== 0;
 
     const removeAllCompletedHandler = () => {
-        dispatch(removeAllCompleted());
+        dispatch(removeAllCompleted(title));
     };
 
     return (
@@ -49,10 +50,21 @@ export default function Page({ title = 'All' }: IPageProps) {
                         pl: { sm: 2 },
                         pr: { xs: 1, sm: 1 }
                     }}>
-                    <Typography sx={{ flex: '1 1 100%' }} color='white' variant='h6' id='Title' component='div'>
-                        {title} Tasks - {AllTasks}
+                    {title !== 'All' && (
+                        <Tooltip title={`Back To Home ?`}>
+                            <Link href='/'>
+                                <a>
+                                    <IconButton id='arrow-back'>
+                                        <ArrowBackIcon style={{ color: 'white' }} />
+                                    </IconButton>
+                                </a>
+                            </Link>
+                        </Tooltip>
+                    )}
+                    <Typography sx={{ flex: '1 1 100%' }} color='white' variant='h5' id='Title' component='h1'>
+                        {title}
                     </Typography>
-                    <Tooltip title='Delete Completed'>
+                    <Tooltip title={`Delete ${title} Completed`}>
                         <IconButton disabled={!hasCompleted} color='primary' onClick={removeAllCompletedHandler}>
                             <DeleteIcon style={{ color: hasCompleted ? 'white' : 'grey' }} />
                         </IconButton>
