@@ -47,8 +47,10 @@ export default function Todo(props: ITodoProps) {
             />
             <Stack spacing={1}>
                 <Typography
-                    sx={{ whiteSpace: 'break-spaces', wordBreak: 'break-word' }}
-                    variant='body2'
+                    sx={{ wordBreak: 'break-word' }}
+                    whiteSpace='break-spaces'
+                    textTransform='capitalize'
+                    variant='body1'
                     component={isCompleted ? 'del' : 'p'}>
                     {task}
                 </Typography>

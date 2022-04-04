@@ -1,8 +1,7 @@
 import { Fragment } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 // MUI components
 import { Container } from '@mui/material';
@@ -17,6 +16,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBackIosNewOutlined';
 import Todos from '../todos';
 
 // Global State
+import { IGlobalState } from '../../store/store';
 import { Collection, todosActions } from '../../store/todos';
 
 // custom hooks
@@ -27,7 +27,8 @@ interface IPageProps {
 }
 
 export default function Page({ title = 'All' }: IPageProps) {
-    const { inProgress, completed } = useTodosFiltered(title);
+    const { searchBy } = useSelector((state: IGlobalState) => state.search);
+    const { inProgress, completed } = useTodosFiltered(title, searchBy);
     const dispatch = useDispatch();
 
     const { removeAllCompleted } = todosActions;

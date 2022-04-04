@@ -1,3 +1,4 @@
+import { ChangeEvent } from 'react';
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 
@@ -14,6 +15,7 @@ import SearchIcon from '@mui/icons-material/Search';
 
 // Global State
 import { drawerActions } from '../../store/drawer';
+import { searchActions } from '../../store/search';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -60,6 +62,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function NavBar() {
     const dispatch = useDispatch();
     const { openDrawer } = drawerActions;
+    const { search } = searchActions;
+
+    const searchHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        dispatch(search(event.target.value));
+    };
 
     return (
         <Box sx={{ flexGrow: 1 }} position='sticky' top={0} zIndex={5}>
@@ -87,7 +94,11 @@ export default function NavBar() {
                         <SearchIconWrapper>
                             <SearchIcon />
                         </SearchIconWrapper>
-                        <StyledInputBase placeholder='Search…' inputProps={{ 'aria-label': 'search' }} />
+                        <StyledInputBase
+                            onChange={searchHandler}
+                            placeholder='Search…'
+                            inputProps={{ 'aria-label': 'search' }}
+                        />
                     </Search>
                 </Toolbar>
             </AppBar>
