@@ -27,9 +27,9 @@ export default function AddNewTask() {
                 sx={{
                     position: 'fixed',
                     bottom: '5vh',
-                    left: '50%',
-                    transform: 'translatex(-50%)'
-                }}>
+                    transform: 'translatex(50%)'
+                }}
+                right={{ xs: '50%', md: '10%' }}>
                 <SpeedDial id='speedDial' ariaLabel='add new task' icon={<SpeedDialIcon openIcon={<EditIcon />} />} />
             </Box>
             <NewTaskForm isOpen={isOpen} onClose={closeNewTaskFormHandler} />
